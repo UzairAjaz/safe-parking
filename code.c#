@@ -3,22 +3,26 @@
 using System.Threading.Channels;
 using System.Xml.Linq;
 
-class Baseclass
+class Vehicle
 {
     string Name;
     int Carnumber;
 
     public int Totalspace = 25;
+    public int Hourscarparked { get; set; }
+    public int Bill { get; set; }
+    public int Accountnumber { get; set; }
+    public int Balance { get; set; }
     public void Message(string messagetype)
     {
         Console.WriteLine($"{messagetype} safeparking");
     }
-    public void Details()
-    {   
+    public void Vehicledetails()
+    {
         Console.WriteLine("enter your name : ");
         Name = Console.ReadLine();
         Console.WriteLine("enter the car number : ");
-        Carnumber = int.Parse(Console.ReadLine());    
+        Carnumber = int.Parse(Console.ReadLine());     
     }
     public void Printdetails()
     {
@@ -26,10 +30,7 @@ class Baseclass
         Console.WriteLine($"Carnumber         :   {Carnumber}");
         Console.WriteLine("Fair for one hour :   1$");
     }
-}
-class Entry : Baseclass
-{ 
-    public void Checkspace()
+    public void Checkspaceforparking()
     {
         if (Totalspace > 0)
         {
@@ -41,22 +42,14 @@ class Entry : Baseclass
             Console.WriteLine("the parkin lot is full");
         }
     }
-    public void Entryprint()
+    public void entryprocess()
     {
         Message("Welcome to");
-        Details();
-        Checkspace();
+        Vehicledetails();
+        Checkspaceforparking();
         Printdetails();
     }
-}
-class Exit : Baseclass
-{
-    public int Hourscarparked { get; set; }
-    public int Bill { get; set; }
-    public int Accountnumber { get; set; }
-    public int Balance { get; set; }
-
-    public void Totalbill()
+    public void Billevaluation()
     {
         Console.WriteLine("total hours car parked");
         Hourscarparked = int.Parse(Console.ReadLine());
@@ -71,7 +64,6 @@ class Exit : Baseclass
         if (Balance > 0)
         {
             Balance -= Bill;
-            Console.WriteLine("Thanks fo coming......");
             Totalspace += 1;
         }
         else
@@ -79,7 +71,7 @@ class Exit : Baseclass
             Console.WriteLine("invalid transaction........");
         }
     }
-    public void Membership()
+    public void Membershipcard()
     {
         Console.WriteLine("do you have member ship card ");
         string s = Console.ReadLine();
@@ -100,22 +92,26 @@ class Exit : Baseclass
             }
         }
     }
-    public void ExitPrint()
+    public void Exitprocess()
     {
-        Details();
-        Totalbill();
-        Membership();
+        Console.WriteLine("--------------------------------------------------");
+        Vehicledetails();
+        Billevaluation();
+        Membershipcard();
         Transactioncheck();
         Message("Goodbye from");
         Printdetails();
         Console.WriteLine($"Bill : {Bill}$");
     }
 }
+
 class Safeparking
 {
     public static void Main()
-    {   
-       Exit exit = new Exit();
-        exit.ExitPrint();
+    {
+      Vehicle vehicle = new Vehicle();
+        vehicle.entryprocess();
+        vehicle.Exitprocess();
+
     }
 }
